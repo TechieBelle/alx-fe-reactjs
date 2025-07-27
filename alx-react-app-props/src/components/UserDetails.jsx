@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import UserContext from "./UserContext";
+import UserContext from "../UserContext";
 
 function UserDetails() {
   // Consume the UserContext using useContext hook
