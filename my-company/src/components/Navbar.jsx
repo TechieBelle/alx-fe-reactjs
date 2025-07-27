@@ -10,13 +10,20 @@ function Navbar() {
   const listStyle = {
     listStyle: "none",
     display: "flex",
+    justifyContent: "space-between",
     margin: 0,
     padding: 0,
     alignItems: "center",
   };
 
+  const navLinksStyle = {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  };
+
   const itemStyle = {
-    marginRight: "2rem",
+    marginLeft: "2rem",
   };
 
   const linkStyle = {
@@ -31,33 +38,34 @@ function Navbar() {
     color: "#3498db",
     fontSize: "1.5rem",
     fontWeight: "bold",
-    marginRight: "auto",
   };
 
   return (
     <nav style={navStyle}>
       <ul style={listStyle}>
         <li style={logoStyle}>MyCompany</li>
-        <li style={itemStyle}>
-          <Link to="/" style={linkStyle}>
-            Home
-          </Link>
-        </li>
-        <li style={itemStyle}>
-          <Link to="/about" style={linkStyle}>
-            About
-          </Link>
-        </li>
-        <li style={itemStyle}>
-          <Link to="/services" style={linkStyle}>
-            Services
-          </Link>
-        </li>
-        <li style={itemStyle}>
-          <Link to="/contact" style={linkStyle}>
-            Contact
-          </Link>
-        </li>
+        <div style={navLinksStyle}>
+          <li style={itemStyle}>
+            <Link to="/" style={linkStyle}>
+              Home
+            </Link>
+          </li>
+          <li style={itemStyle}>
+            <Link to="/about" style={linkStyle}>
+              About
+            </Link>
+          </li>
+          <li style={itemStyle}>
+            <Link to="/services" style={linkStyle}>
+              Services
+            </Link>
+          </li>
+          <li style={itemStyle}>
+            <Link to="/contact" style={linkStyle}>
+              Contact
+            </Link>
+          </li>
+        </div>
       </ul>
     </nav>
   );
