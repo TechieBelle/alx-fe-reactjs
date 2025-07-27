@@ -3,6 +3,9 @@ import { useRecipeStore } from "../recipeStore";
 
 const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes);
+  const favorites = useRecipeStore((state) => state.favorites);
+  const addFavorite = useRecipeStore((state) => state.addFavorite);
+  const removeFavorite = useRecipeStore((state) => state.removeFavorite);
   const deleteRecipe = useRecipeStore((state) => state.deleteRecipe);
 
   const handleDelete = (id) => {
@@ -11,16 +14,17 @@ const RecipeList = () => {
     }
   };
 
+  const toggleFavorite = (id) => {
+    if (favorites.includes(id)) {
+      removeFavorite(id);
+    } else {
+      addFavorite(id);
+    }
+  };
+
   if (recipes.length === 0) {
     return (
-      <div
-        style={{
-          textAlign: "center",
-          padding: "2rem",
-          color: "#666",
-          fontSize: "1.1rem",
-        }}
-      >
+      <div style={{ textAlign: "center", padding: "2rem", color: "#666" }}>
         <p>No recipes available. Add your first recipe!</p>
       </div>
     );
@@ -44,15 +48,6 @@ const RecipeList = () => {
             borderRadius: "8px",
             padding: "1.5rem",
             boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-            transition: "transform 0.2s ease, box-shadow 0.2s ease",
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.transform = "translateY(-2px)";
-            e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.15)";
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.transform = "translateY(0)";
-            e.currentTarget.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
           }}
         >
           <div
@@ -63,61 +58,54 @@ const RecipeList = () => {
               marginBottom: "1rem",
             }}
           >
-            {/* ✅ Clickable Recipe Title */}
             <Link
               to={`/recipe/${recipe.id}`}
               style={{
                 textDecoration: "none",
                 color: "#3498db",
-                fontSize: "1.3rem",
                 fontWeight: "bold",
+                fontSize: "1.3rem",
               }}
             >
               {recipe.title}
             </Link>
 
-            <button
-              onClick={() => handleDelete(recipe.id)}
-              style={{
-                background: "none",
-                border: "none",
-                color: "#e74c3c",
-                cursor: "pointer",
-                fontSize: "1.2rem",
-                padding: "0.25rem",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-              }}
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#fee")}
-              onMouseOut={(e) =>
-                (e.target.style.backgroundColor = "transparent")
-              }
-              title="Delete recipe"
-            >
-              ✕
-            </button>
+            <div>
+              {/* Favorite Button */}
+              <button
+                onClick={() => toggleFavorite(recipe.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontSize: "1.5rem",
+                  cursor: "pointer",
+                  color: favorites.includes(recipe.id) ? "#e74c3c" : "#ccc",
+                  marginRight: "0.5rem",
+                }}
+                title="Add to favorites"
+              >
+                ❤️
+              </button>
+
+              {/* Delete Button */}
+              <button
+                onClick={() => handleDelete(recipe.id)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#e74c3c",
+                  cursor: "pointer",
+                  fontSize: "1.2rem",
+                }}
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
-          <p
-            style={{
-              color: "#666",
-              lineHeight: "1.6",
-              margin: 0,
-              fontSize: "0.95rem",
-            }}
-          >
+          <p style={{ color: "#666", fontSize: "0.95rem" }}>
             {recipe.description}
           </p>
-
-          <div
-            style={{
-              marginTop: "1rem",
-              fontSize: "0.8rem",
-              color: "#999",
-            }}
-          >
-            Recipe ID: {recipe.id}
-          </div>
         </div>
       ))}
     </div>
