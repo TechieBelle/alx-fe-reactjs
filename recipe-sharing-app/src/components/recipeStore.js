@@ -1,68 +1,34 @@
 import { create } from "zustand";
 
-const useRecipeStore = create((set, get) => ({
+export const useRecipeStore = create((set) => ({
   recipes: [],
-  favorites: [],
   searchTerm: "",
+  filteredRecipes: [],
 
-  // Action to add a new recipe
+  setRecipes: (recipes) => set({ recipes, filteredRecipes: recipes }),
+
+  setSearchTerm: (term) =>
+    set((state) => {
+      const filtered = state.recipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(term.toLowerCase())
+      );
+      return { searchTerm: term, filteredRecipes: filtered };
+    }),
+
   addRecipe: (newRecipe) =>
     set((state) => ({
       recipes: [...state.recipes, newRecipe],
+      filteredRecipes: [...state.recipes, newRecipe],
     })),
 
-  // Action to set recipes (for initialization or bulk updates)
-  setRecipes: (recipes) => set({ recipes }),
-
-  // Action to update an existing recipe
-  updateRecipe: (updatedRecipe) =>
-    set((state) => ({
-      recipes: state.recipes.map((recipe) =>
-        recipe.id === updatedRecipe.id
-          ? { ...updatedRecipe, updatedAt: new Date().toLocaleDateString() }
-          : recipe
-      ),
-    })),
-
-  // Action to delete a recipe
   deleteRecipe: (id) =>
-    set((state) => ({
-      recipes: state.recipes.filter((recipe) => recipe.id !== id),
-      favorites: state.favorites.filter((favId) => favId !== id),
-    })),
-
-  // Action to get a single recipe by ID
-  getRecipeById: (id) => {
-    const state = get();
-    return state.recipes.find((recipe) => recipe.id === parseInt(id));
-  },
-
-  // Action to toggle favorite status
-  toggleFavorite: (id) =>
     set((state) => {
-      const isFavorite = state.favorites.includes(id);
+      const updatedRecipes = state.recipes.filter((r) => r.id !== id);
       return {
-        favorites: isFavorite
-          ? state.favorites.filter((favId) => favId !== id)
-          : [...state.favorites, id],
+        recipes: updatedRecipes,
+        filteredRecipes: updatedRecipes.filter((recipe) =>
+          recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase())
+        ),
       };
     }),
-
-  // Action to set search term
-  setSearchTerm: (term) => set({ searchTerm: term }),
-
-  // Computed getter for filtered recipes
-  getFilteredRecipes: () => {
-    const state = get();
-    if (!state.searchTerm) return state.recipes;
-    return state.recipes.filter(
-      (recipe) =>
-        recipe.title.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
-        recipe.description
-          .toLowerCase()
-          .includes(state.searchTerm.toLowerCase())
-    );
-  },
 }));
-
-export { useRecipeStore };

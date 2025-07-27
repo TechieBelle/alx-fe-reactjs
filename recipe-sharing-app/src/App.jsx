@@ -6,6 +6,8 @@ import RecipeDetails from "./components/RecipeDetails";
 import SearchBar from "./components/SearchBar";
 import { useRecipeStore } from "./recipeStore";
 
+
+
 // Home Page Component
 const HomePage = () => {
   const recipes = useRecipeStore((state) => state.recipes);
