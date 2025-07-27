@@ -1,4 +1,5 @@
-import { useRecipeStore } from "./recipeStore";
+import { Link } from "react-router-dom";
+import { useRecipeStore } from "../recipeStore";
 
 const RecipeList = () => {
   const recipes = useRecipeStore((state) => state.recipes);
@@ -62,16 +63,19 @@ const RecipeList = () => {
               marginBottom: "1rem",
             }}
           >
-            <h3
+            {/* ✅ Clickable Recipe Title */}
+            <Link
+              to={`/recipe/${recipe.id}`}
               style={{
-                margin: 0,
-                color: "#333",
+                textDecoration: "none",
+                color: "#3498db",
                 fontSize: "1.3rem",
                 fontWeight: "bold",
               }}
             >
               {recipe.title}
-            </h3>
+            </Link>
+
             <button
               onClick={() => handleDelete(recipe.id)}
               style={{
@@ -93,6 +97,7 @@ const RecipeList = () => {
               ✕
             </button>
           </div>
+
           <p
             style={{
               color: "#666",
@@ -103,6 +108,7 @@ const RecipeList = () => {
           >
             {recipe.description}
           </p>
+
           <div
             style={{
               marginTop: "1rem",
