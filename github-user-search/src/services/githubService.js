@@ -1,35 +1,16 @@
 // src/services/githubService.js
-
-export const fetchAdvancedUserSearch = async (username, location, minRepos) => {
-  // Build query string exactly as required
-  let query = username ? `${username}` : "";
-
-  if (location) {
-    query += `+location:${location}`;
-  }
-
-  if (minRepos) {
-    query += `+repos:>=${minRepos}`;
-  }
-
-  // ✅ Keep this exact string so the test passes
-  const url = `https://api.github.com/search/users?q=${query}`;
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    throw new Error("Error fetching users");
-  }
-
+export const searchUsers = async (query) => {
+  const response = await fetch(
+    `https://api.github.com/search/users?q=${query}`
+  );
   const data = await response.json();
 
-  // GitHub's search API only returns partial user info, so fetch full details
+  // Fetch details for each user to get location
   const detailedUsers = await Promise.all(
     data.items.map(async (user) => {
-      const detailsResponse = await fetch(user.url);
-      if (!detailsResponse.ok) return user; // fallback to basic info
-      const details = await detailsResponse.json();
-      return { ...user, ...details };
+      const userResponse = await fetch(user.url);
+      const userData = await userResponse.json();
+      return { ...user, location: userData.location };
     })
   );
 
