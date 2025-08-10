@@ -1,12 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Search from "./components/Search";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </Router>
+    <div className="main-container">
+      <h1 className="text-3xl font-bold text-center">GitHub User Search</h1>
+      <Search />
+    </div>
   );
 }
 
