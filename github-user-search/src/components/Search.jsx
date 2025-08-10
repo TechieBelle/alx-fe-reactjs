@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { searchUsers } from "../services/githubService";
+import { searchUsers, fetchUserData } from "../services/githubService";
 
 const Search = ({ setUsers }) => {
   const [query, setQuery] = useState("");
@@ -8,13 +8,20 @@ const Search = ({ setUsers }) => {
     e.preventDefault();
     if (!query) return;
 
+    // 1️⃣ Search users by query
     const results = await searchUsers(query);
 
-    const usersWithDetails = results.map((user) => ({
-      ...user,
-      location: user.location || "Not available",
-      html_url: user.html_url || "#", // ✅ ensure html_url is always present
-    }));
+    // 2️⃣ Fetch detailed info for each user
+    const usersWithDetails = await Promise.all(
+      results.map(async (user) => {
+        const details = await fetchUserData(user.login);
+        return {
+          ...user,
+          location: details.location || "Not available",
+          html_url: details.html_url || "#",
+        };
+      })
+    );
 
     setUsers(usersWithDetails);
   };
@@ -35,7 +42,6 @@ const Search = ({ setUsers }) => {
         Search
       </button>
 
-      {/* Example output */}
       {query && <p>Searching for: {query}</p>}
     </form>
   );
