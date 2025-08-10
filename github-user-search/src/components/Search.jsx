@@ -1,76 +1,122 @@
-import { useState } from "react";
-import { fetchUserData } from "../services/githubService";
+import React, { useState } from "react";
 
-function Search() {
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState(null);
+export default function GitHubUserSearch() {
+  const [query, setQuery] = useState("");
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!username.trim()) return;
+  const perPage = 10; // results per page
 
+  const fetchUsers = async (searchQuery, pageNumber) => {
+    if (!searchQuery.trim()) return;
     setLoading(true);
-    setError("");
-    setUser(null);
 
     try {
-      const data = await fetchUserData(username);
-      setUser(data);
+      const response = await fetch(
+        `https://api.github.com/search/users?q=${searchQuery}&per_page=${perPage}&page=${pageNumber}`
+      );
+      const data = await response.json();
+      setUsers(data.items || []);
+      setTotalCount(data.total_count || 0);
     } catch (error) {
-      setError("Looks like we cant find the user");
+      console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleSearch = () => {
+    setPage(1);
+    fetchUsers(query, 1);
+  };
+
+  const handleNext = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchUsers(query, nextPage);
+  };
+
+  const handlePrev = () => {
+    if (page > 1) {
+      const prevPage = page - 1;
+      setPage(prevPage);
+      fetchUsers(query, prevPage);
+    }
+  };
+
   return (
-    <div className="max-w-md mx-auto mt-10 text-center">
-      {/* Search Form */}
-      <form onSubmit={handleSubmit} className="flex gap-2">
+    <div className="p-6 max-w-lg mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-center">
+        GitHub User Search
+      </h1>
+      <div className="flex gap-2 mb-4">
         <input
           type="text"
-          placeholder="Enter GitHub username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="flex-1 border border-gray-300 p-2 rounded"
+          placeholder="Search GitHub users..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="flex-1 p-2 border rounded"
         />
         <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          onClick={handleSearch}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           Search
         </button>
-      </form>
+      </div>
 
-      {/* Loading State */}
-      {loading && <p className="mt-4 text-gray-500">Loading...</p>}
+      {loading ? (
+        <p className="text-center">Loading...</p>
+      ) : (
+        <>
+          <ul>
+            {users.map((user) => (
+              <li key={user.id} className="p-2 border-b">
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500"
+                >
+                  {user.login}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-      {/* Error State */}
-      {error && <p className="mt-4 text-red-500">{error}</p>}
-
-      {/* User Display */}
-      {user && (
-        <div className="mt-6 p-4 border rounded shadow">
-          <img
-            src={user.avatar_url}
-            alt={user.login}
-            className="w-24 h-24 rounded-full mx-auto"
-          />
-          <h2 className="mt-2 text-xl font-bold">{user.name || user.login}</h2>
-          <a
-            href={user.html_url}
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-500 underline"
-          >
-            View GitHub Profile
-          </a>
-        </div>
+          {users.length > 0 && (
+            <div className="flex justify-between items-center mt-4">
+              <button
+                onClick={handlePrev}
+                disabled={page === 1}
+                className={`px-4 py-2 rounded ${
+                  page === 1
+                    ? "bg-gray-300"
+                    : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
+              >
+                Previous
+              </button>
+              <span>
+                Page {page} of {Math.ceil(totalCount / perPage)}
+              </span>
+              <button
+                onClick={handleNext}
+                disabled={page >= Math.ceil(totalCount / perPage)}
+                className={`px-4 py-2 rounded ${
+                  page >= Math.ceil(totalCount / perPage)
+                    ? "bg-gray-300"
+                    : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 }
-
-export default Search;
