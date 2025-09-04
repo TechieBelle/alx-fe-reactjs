@@ -1,39 +1,124 @@
-
 [
   {
     "id": 1,
     "title": "Spaghetti Carbonara",
     "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/150"
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "200g spaghetti",
+      "2 eggs",
+      "100g pancetta",
+      "50g parmesan cheese",
+      "Black pepper"
+    ],
+    "instructions": [
+      "Boil pasta until al dente.",
+      "Cook pancetta until crispy.",
+      "Whisk eggs and cheese in a bowl.",
+      "Mix hot pasta with pancetta, then quickly stir in egg mixture.",
+      "Serve with extra cheese and pepper."
+    ]
   },
   {
     "id": 2,
     "title": "Chicken Tikka Masala",
-    "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "summary": "Chunks of grilled chicken in a creamy tomato-based curry sauce.",
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "500g chicken breast",
+      "1 cup yogurt",
+      "2 tbsp tikka masala paste",
+      "1 onion",
+      "400g canned tomatoes",
+      "200ml cream"
+    ],
+    "instructions": [
+      "Marinate chicken in yogurt and tikka paste for 1 hour.",
+      "Grill or pan-fry chicken until golden.",
+      "Fry onions, add tomatoes and simmer.",
+      "Stir in cream, then add chicken.",
+      "Serve with rice or naan."
+    ]
   },
   {
     "id": 3,
-    "title": "Chicken Tikka Masala",
-    "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "title": "Vegetable Stir Fry",
+    "summary": "A quick and healthy mix of fresh vegetables tossed in a savory sauce.",
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "1 broccoli head",
+      "1 red bell pepper",
+      "2 carrots",
+      "2 tbsp soy sauce",
+      "1 tbsp sesame oil",
+      "2 garlic cloves"
+    ],
+    "instructions": [
+      "Chop all vegetables evenly.",
+      "Heat oil in wok, add garlic.",
+      "Add vegetables and stir fry 5-7 minutes.",
+      "Pour soy sauce, toss well.",
+      "Serve with rice or noodles."
+    ]
   },
   {
     "id": 4,
-    "title": "Chicken Tikka Masala",
-    "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "title": "Beef Tacos",
+    "summary": "Delicious Mexican-style tacos with seasoned beef and fresh toppings.",
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "300g ground beef",
+      "1 onion",
+      "2 tsp taco seasoning",
+      "8 taco shells",
+      "Lettuce, tomato, cheese"
+    ],
+    "instructions": [
+      "Cook beef and onion in pan until browned.",
+      "Add taco seasoning and mix well.",
+      "Warm taco shells.",
+      "Fill with beef, lettuce, tomato, cheese.",
+      "Serve with salsa or guacamole."
+    ]
   },
   {
     "id": 5,
-    "title": "Chicken Tikka Masala",
-    "summary": "Chunks of grilled chicken (tikka) cooked in a smooth buttery & creamy tomato based gravy.",
-    "image": "https://via.placeholder.com/150"
+    "title": "Pancakes",
+    "summary": "Fluffy pancakes served with syrup or fruit.",
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "1 cup flour",
+      "2 tbsp sugar",
+      "1 egg",
+      "1 cup milk",
+      "1 tsp baking powder",
+      "Butter for cooking"
+    ],
+    "instructions": [
+      "Mix flour, sugar, and baking powder.",
+      "Whisk in milk and egg until smooth.",
+      "Heat butter in pan.",
+      "Pour batter to form pancakes.",
+      "Cook until bubbles form, then flip."
+    ]
   },
-    {
-    "id": 1,
-    "title": "Spaghetti Carbonara",
-    "summary": "A classic Italian pasta dish with eggs, cheese, bacon, and black pepper.",
-    "image": "https://via.placeholder.com/150"
+  {
+    "id": 6,
+    "title": "Caesar Salad",
+    "summary": "Crisp romaine lettuce tossed with Caesar dressing and croutons.",
+    "image": "https://via.placeholder.com/300x200",
+    "ingredients": [
+      "1 romaine lettuce",
+      "50g parmesan cheese",
+      "1 cup croutons",
+      "Caesar dressing"
+    ],
+    "instructions": [
+      "Wash and chop lettuce.",
+      "Toss lettuce with Caesar dressing.",
+      "Add croutons and parmesan.",
+      "Mix well and serve cold."
+    ]
   }
+  
 ]

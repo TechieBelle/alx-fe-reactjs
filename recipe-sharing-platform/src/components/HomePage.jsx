@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom"; // ✅ import Link
 import NavBar from "./NavBar";  
 import Hero from "./Hero";
-     
-function HomePage ()  {
-    const [recipes, setRecipes] = useState([]);
 
-    useEffect(() => {
-      fetch("/src/data.json") // load mock data
-        .then((res) => res.json())
-        .then((data) => setRecipes(data))
-        .catch((err) => console.error("Error loading recipes:", err));
-    }, []);
+function HomePage() {
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    fetch("/src/data.json")
+      .then((res) => res.json())
+      .then((data) => setRecipes(data))
+      .catch((err) => console.error("Error loading recipes:", err));
+  }, []);
+
   return (
     <div>
       <NavBar />
@@ -35,12 +36,13 @@ function HomePage ()  {
               <div className="p-4">
                 <h2 className="text-xl font-semibold mb-2">{recipe.title}</h2>
                 <p className="text-gray-600">{recipe.summary}</p>
-                <a
-                  href={`/recipe/${recipe.id}`}
+                {/* ✅ Use Link instead of <a> */}
+                <Link
+                  to={`/recipe/${recipe.id}`}
                   className="mt-3 inline-block text-blue-500 hover:text-blue-700"
                 >
                   View Recipe →
-                </a>
+                </Link>
               </div>
             </div>
           ))}
@@ -48,6 +50,6 @@ function HomePage ()  {
       </div>
     </div>
   );
-};
+}
 
 export default HomePage;
