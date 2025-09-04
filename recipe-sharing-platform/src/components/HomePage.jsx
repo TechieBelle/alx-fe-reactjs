@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom"; // ✅ import Link
-import NavBar from "./NavBar";  
+import { useState, useEffect } from "react";
+import NavBar from "./NavBar";
 import Hero from "./Hero";
+import AddRecipeForm from "./AddRecipeForm";
 
 function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
+  // Load recipes from mock JSON
   useEffect(() => {
     fetch("/src/data.json")
       .then((res) => res.json())
@@ -13,16 +14,26 @@ function HomePage() {
       .catch((err) => console.error("Error loading recipes:", err));
   }, []);
 
+  // Handle adding a new recipe
+  const handleAddRecipe = (newRecipe) => {
+    setRecipes((prev) => [newRecipe, ...prev]); // add new recipe at top
+  };
+
   return (
     <div>
       <NavBar />
       <Hero />
+
+      {/* Add Recipe Form */}
+      <AddRecipeForm onAddRecipe={handleAddRecipe} />
+
+      {/* Recipe List */}
       <div className="p-6">
         <h1 className="text-3xl font-bold text-center mb-6">
           🍳 Recipe Sharing Platform
         </h1>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {recipes.map((recipe) => (
             <div
               key={recipe.id}
@@ -36,13 +47,12 @@ function HomePage() {
               <div className="p-4">
                 <h2 className="text-xl font-semibold mb-2">{recipe.title}</h2>
                 <p className="text-gray-600">{recipe.summary}</p>
-                {/* ✅ Use Link instead of <a> */}
-                <Link
-                  to={`/recipe/${recipe.id}`}
-                  className="mt-3 inline-block text-blue-500 hover:text-blue-700"
+                <a
+                  href={`/recipe/${recipe.id}`}
+                  className="mt-3 inline-block text-orange-500 hover:text-orange-700"
                 >
                   View Recipe →
-                </Link>
+                </a>
               </div>
             </div>
           ))}
