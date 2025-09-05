@@ -1,9 +1,20 @@
 import { Navigate } from "react-router-dom";
 
-function ProtectedRoute({ children }) {
-  const isAuthenticated = localStorage.getItem("auth") === "true"; // fake auth check
+// 🔹 Fake hook for authentication
+function useAuth() {
+  // Replace this with real auth logic later (e.g., token check, context, etc.)
+  const token = localStorage.getItem("authToken");
+  return !!token; // true if logged in, false if not
+}
 
-  return isAuthenticated ? children : <Navigate to="/login" />;
+function ProtectedRoute({ children }) {
+  const isAuthenticated = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
 }
 
 export default ProtectedRoute;
