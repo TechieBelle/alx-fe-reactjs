@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        {/* Protected route example */}
+        {/* Protected Profile Route */}
         <Route
           path="/profile/*"
           element={
@@ -26,13 +26,13 @@ function App() {
           }
         />
 
-        {/* Dynamic route example */}
-        <Route path="/post/:id" element={<BlogPost />} />
+        {/* ✅ Dynamic Blog Route */}
+        <Route path="/blog/:id" element={<BlogPost />} />
 
-        {/* Login page */}
+        {/* Login */}
         <Route path="/login" element={<Login />} />
 
-        {/* Catch-all (like wrong address) */}
+        {/* Catch-all (wrong address → redirect home) */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
