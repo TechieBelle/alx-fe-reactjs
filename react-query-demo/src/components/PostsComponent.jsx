@@ -9,9 +9,15 @@ const fetchPosts = async () => {
 };
 
 const PostsComponent = () => {
-  const { data, error, isLoading, isError, refetch } = useQuery({
-    queryKey: ["posts"], // unique key
+  const { data, error, isLoading, isError, refetch, isFetching } = useQuery({
+    queryKey: ["posts"],
     queryFn: fetchPosts,
+
+    // ✅ Advanced React Query features
+    staleTime: 1000 * 60 * 2, // Data is "fresh" for 2 minutes
+    cacheTime: 1000 * 60 * 5, // Cache is kept for 5 minutes after unused
+    refetchOnWindowFocus: false, // Don’t refetch every time window is focused
+    keepPreviousData: true, // Show old data while fetching new data
   });
 
   if (isLoading) return <p>⏳ Loading posts...</p>;
@@ -23,7 +29,7 @@ const PostsComponent = () => {
         onClick={() => refetch()}
         className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
       >
-        🔄 Refetch Posts
+        🔄 {isFetching ? "Refreshing..." : "Refetch Posts"}
       </button>
       <ul className="space-y-2">
         {data.slice(0, 10).map((post) => (
